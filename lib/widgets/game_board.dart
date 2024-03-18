@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
+import 'package:simms_says/providers/game_state_provider.dart';
 
 class GameBoard extends StatelessWidget {
-  GameBoard({
-    super.key,
-  });
-
   final logger = Logger();
+
+  GameBoard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // State from provider
+    final gameState = Provider.of<GameStateProvider>(context).gameState;
+    final animatedButton = gameState.animatedButton;
+    // print(buttonSequence);
+    // animateButtons(buttonSequence);
     return Center(
       child: Container(
         width: 300.0, // Adjust the width as needed
@@ -24,11 +29,17 @@ class GameBoard extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
-                          child: _buildButton('Top Left',
-                              'Top Left button pressed', Colors.green)),
+                          child: _buildButton(
+                              'Top Left',
+                              'Top Left button pressed',
+                              Colors.green,
+                              animatedButton == 1)),
                       Expanded(
-                          child: _buildButton('Top Right',
-                              'Top Right button pressed', Colors.red)),
+                          child: _buildButton(
+                              'Top Right',
+                              'Top Right button pressed',
+                              Colors.red,
+                              animatedButton == 2)),
                     ],
                   ),
                 ),
@@ -37,11 +48,17 @@ class GameBoard extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
-                          child: _buildButton('Bottom Left',
-                              'Bottom Left button pressed', Colors.yellow)),
+                          child: _buildButton(
+                              'Bottom Left',
+                              'Bottom Left button pressed',
+                              Colors.yellow,
+                              animatedButton == 3)),
                       Expanded(
-                          child: _buildButton('Bottom Right',
-                              'Bottom Right button pressed', Colors.blue)),
+                          child: _buildButton(
+                              'Bottom Right',
+                              'Bottom Right button pressed',
+                              Colors.blue,
+                              animatedButton == 4)),
                     ],
                   ),
                 ),
@@ -50,45 +67,30 @@ class GameBoard extends StatelessWidget {
             Positioned(
               top: 100.0, // Center the circle vertically
               left: 100.0, // Center the circle horizontally
-              child: _buildCenterButton('Center', 'Center button pressed'),
+              child: _buildButton('Center', 'Center button pressed',
+                  Colors.purple, animatedButton == 5,
+                  isCentered: true),
             ),
+            Positioned(
+                bottom: 50, right: 50, child: Text(animatedButton.toString()))
           ],
         ),
       ),
     );
   }
 
-  Widget _buildButton(String label, String logMessage, MaterialColor color) {
+  Widget _buildButton(
+      String label, String logMessage, MaterialColor color, bool isAnimated,
+      {bool isCentered = false}) {
     return ElevatedButton(
       onPressed: () => logger.d(logMessage),
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: color, // Uncomment if you want to set the text color
-        fixedSize: const Size(200, 200),
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.zero), // Makes the button square
-        // padding: EdgeInsets.all(
-        //     size / 4), // Adjusts the padding to fit the square shape
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(fontSize: 16),
-      ),
-    );
-  }
-
-  Widget _buildCenterButton(String label, String logMessage,
-      [double size = 100.0]) {
-    return ElevatedButton(
-      onPressed: () => logger.d(logMessage),
-      style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white,
-        backgroundColor:
-            Colors.purple, // Uncomment if you want to set the text color
-        fixedSize: const Size(100, 100),
-        shape: const CircleBorder(), // Makes the button square
-        // padding: EdgeInsets.all(
-        //     size / 4), // Adjusts the padding to fit the square shape
+        backgroundColor: isAnimated ? Colors.orange : color,
+        fixedSize: isCentered ? Size(100, 100) : Size(200, 200),
+        shape: isCentered
+            ? CircleBorder()
+            : RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
       child: Text(
         label,
