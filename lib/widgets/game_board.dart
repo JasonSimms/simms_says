@@ -24,11 +24,11 @@ class GameBoard extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
-                          child: _buildButton(
-                              'Top Left', 'Top Left button pressed')),
+                          child: _buildButton('Top Left',
+                              'Top Left button pressed', Colors.green)),
                       Expanded(
-                          child: _buildButton(
-                              'Top Right', 'Top Right button pressed')),
+                          child: _buildButton('Top Right',
+                              'Top Right button pressed', Colors.red)),
                     ],
                   ),
                 ),
@@ -37,11 +37,11 @@ class GameBoard extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
-                          child: _buildButton(
-                              'Bottom Left', 'Bottom Left button pressed')),
+                          child: _buildButton('Bottom Left',
+                              'Bottom Left button pressed', Colors.yellow)),
                       Expanded(
-                          child: _buildButton(
-                              'Bottom Right', 'Bottom Right button pressed')),
+                          child: _buildButton('Bottom Right',
+                              'Bottom Right button pressed', Colors.blue)),
                     ],
                   ),
                 ),
@@ -50,8 +50,7 @@ class GameBoard extends StatelessWidget {
             Positioned(
               top: 100.0, // Center the circle vertically
               left: 100.0, // Center the circle horizontally
-              child:
-                  _buildCenterButton('Center', 'Center button pressed', 100.0),
+              child: _buildCenterButton('Center', 'Center button pressed'),
             ),
           ],
         ),
@@ -59,46 +58,41 @@ class GameBoard extends StatelessWidget {
     );
   }
 
-  Widget _buildButton(String label, String logMessage, [double size = 100.0]) {
+  Widget _buildButton(String label, String logMessage, MaterialColor color) {
     return ElevatedButton(
       onPressed: () => logger.d(logMessage),
       style: ElevatedButton.styleFrom(
-        // primary: Colors.blue, // Uncomment if you want to set the background color
-        // onPrimary: Colors.white, // Uncomment if you want to set the text color
-        fixedSize: Size(200, 200),
-        shape: RoundedRectangleBorder(
+        foregroundColor: Colors.white,
+        backgroundColor: color, // Uncomment if you want to set the text color
+        fixedSize: const Size(200, 200),
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.zero), // Makes the button square
         // padding: EdgeInsets.all(
         //     size / 4), // Adjusts the padding to fit the square shape
       ),
       child: Text(
         label,
-        style: TextStyle(fontSize: 16),
+        style: const TextStyle(fontSize: 16),
       ),
     );
   }
 
   Widget _buildCenterButton(String label, String logMessage,
       [double size = 100.0]) {
-    return GestureDetector(
-      onTap: () => logger.d(logMessage),
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.green,
-          border: Border.all(
-            color: Colors.white, // Border color
-            width: 2.0, // Border width
-          ),
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(color: Colors.white, fontSize: 16),
-          ),
-        ),
+    return ElevatedButton(
+      onPressed: () => logger.d(logMessage),
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.white,
+        backgroundColor:
+            Colors.purple, // Uncomment if you want to set the text color
+        fixedSize: const Size(100, 100),
+        shape: const CircleBorder(), // Makes the button square
+        // padding: EdgeInsets.all(
+        //     size / 4), // Adjusts the padding to fit the square shape
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(fontSize: 16),
       ),
     );
   }
