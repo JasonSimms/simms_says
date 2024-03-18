@@ -12,6 +12,10 @@ void main() {
   );
 }
 
+void foo() {
+  print('bar');
+}
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class MyApp extends StatelessWidget {
             title: const Text('Coder_Simms_Says'),
           ),
           body: Column(children: <Widget>[
-            Text(gameState.stringFromProvider),
+            Text('giggity2'),
             Container(
                 width: 400,
                 height: 400,
@@ -35,17 +39,17 @@ class MyApp extends StatelessWidget {
                   onPressed: () {
                     // Trigger the animation in GameBoard
                     Provider.of<GameStateProvider>(context, listen: false)
-                        .updateButtonSequence([1, 2, 3, 4, 5]);
+                        .startAnimation();
                   },
-                  child: const Text('Update Sequence'),
+                  child: const Text('Help'),
                 ),
                 ElevatedButton(
                   onPressed: () {
                     // Trigger the animation in GameBoard
                     Provider.of<GameStateProvider>(context, listen: false)
-                        .startAnimation();
+                        .startNewGame();
                   },
-                  child: const Text('Animate Buttons'),
+                  child: const Text('New'),
                 ),
               ],
             )

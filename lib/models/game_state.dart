@@ -5,4 +5,7 @@ class GameState {
   bool isBusy = false;
   bool isAnimatingSequence = false;
   int animatedButton = 0;
+  List<int> userInputSequence = [];
+
+  get handleUserInput => null;
 }

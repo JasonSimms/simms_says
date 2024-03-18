@@ -11,8 +11,24 @@ class GameBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // State from provider
+    // final gameState = Provider.of<GameStateProvider>(context).gameState;
     final gameState = Provider.of<GameStateProvider>(context).gameState;
     final animatedButton = gameState.animatedButton;
+    final test = gameState.stringFromProvider;
+    final checkInput =
+        Provider.of<GameStateProvider>(context, listen: false).checkInput;
+
+    if (test != "BINGO") {
+      throw ArgumentError('stringFromProvider is null or undefined');
+    }
+
+    /// Access the game state from the provider
+
+    // Ensure handleUserInput is not null before using it
+    if (checkInput == null) {
+      throw ArgumentError('checkInput is null or undefined');
+    }
+
     // print(buttonSequence);
     // animateButtons(buttonSequence);
     return Center(
@@ -29,17 +45,21 @@ class GameBoard extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
-                          child: _buildButton(
-                              'Top Left',
-                              'Top Left button pressed',
-                              Colors.green,
-                              animatedButton == 1)),
+                        child: _buildButton(
+                            label: 'Top Left',
+                            value: 1,
+                            color: Colors.green,
+                            isAnimated: animatedButton == 1,
+                            callback: checkInput),
+                      ),
                       Expanded(
-                          child: _buildButton(
-                              'Top Right',
-                              'Top Right button pressed',
-                              Colors.red,
-                              animatedButton == 2)),
+                        child: _buildButton(
+                            label: 'Top Right',
+                            value: 2,
+                            color: Colors.red,
+                            isAnimated: animatedButton == 2,
+                            callback: checkInput),
+                      )
                     ],
                   ),
                 ),
@@ -49,16 +69,18 @@ class GameBoard extends StatelessWidget {
                     children: [
                       Expanded(
                           child: _buildButton(
-                              'Bottom Left',
-                              'Bottom Left button pressed',
-                              Colors.yellow,
-                              animatedButton == 3)),
+                              label: 'Bottom Left',
+                              value: 3,
+                              color: Colors.yellow,
+                              isAnimated: animatedButton == 3,
+                              callback: checkInput)),
                       Expanded(
                           child: _buildButton(
-                              'Bottom Right',
-                              'Bottom Right button pressed',
-                              Colors.blue,
-                              animatedButton == 4)),
+                              label: 'Bottom Right',
+                              value: 4,
+                              color: Colors.blue,
+                              isAnimated: animatedButton == 4,
+                              callback: checkInput)),
                     ],
                   ),
                 ),
@@ -67,8 +89,12 @@ class GameBoard extends StatelessWidget {
             Positioned(
               top: 100.0, // Center the circle vertically
               left: 100.0, // Center the circle horizontally
-              child: _buildButton('Center', 'Center button pressed',
-                  Colors.purple, animatedButton == 5,
+              child: _buildButton(
+                  label: 'Center',
+                  value: 5,
+                  color: Colors.purple,
+                  isAnimated: animatedButton == 5,
+                  callback: checkInput,
                   isCentered: true),
             ),
             Positioned(
@@ -79,11 +105,16 @@ class GameBoard extends StatelessWidget {
     );
   }
 
-  Widget _buildButton(
-      String label, String logMessage, MaterialColor color, bool isAnimated,
-      {bool isCentered = false}) {
+  Widget _buildButton({
+    required String label,
+    required int value,
+    required MaterialColor color,
+    required bool isAnimated,
+    required Function callback,
+    bool isCentered = false,
+  }) {
     return ElevatedButton(
-      onPressed: () => logger.d(logMessage),
+      onPressed: () => callback(value),
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: isAnimated ? Colors.orange : color,
