@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
             title: const Text('Coder_Simms_Says'),
           ),
           body: Column(children: <Widget>[
-            Text('giggity2'),
+            Text('<Debug text>'),
             Container(
                 width: 400,
                 height: 400,

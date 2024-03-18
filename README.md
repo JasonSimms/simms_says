@@ -1,15 +1,16 @@
-# simms_says
+# Coder_Simms_Says
 
-A new Flutter project.
+A Simple Click Game in Flutter using Provider state management. Mobile First.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+TODO
+[x] Implent Gameplay
+[ ] Improve animation with sound
+[ ] Implement Score Tracking
+[ ] Help Section
+[ ] Lose Snackbar / Modular
+[ ] Add user and firebase implentation
+[ ] Overhaul styling
+[ ] Dark mode?
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
