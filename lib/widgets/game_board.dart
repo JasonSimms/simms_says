@@ -11,26 +11,11 @@ class GameBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // State from provider
-    // final gameState = Provider.of<GameStateProvider>(context).gameState;
     final gameState = Provider.of<GameStateProvider>(context).gameState;
     final animatedButton = gameState.animatedButton;
-    final test = gameState.stringFromProvider;
     final checkInput =
         Provider.of<GameStateProvider>(context, listen: false).checkInput;
 
-    if (test != "BINGO") {
-      throw ArgumentError('stringFromProvider is null or undefined');
-    }
-
-    /// Access the game state from the provider
-
-    // Ensure handleUserInput is not null before using it
-    if (checkInput == null) {
-      throw ArgumentError('checkInput is null or undefined');
-    }
-
-    // print(buttonSequence);
-    // animateButtons(buttonSequence);
     return Center(
       child: Container(
         width: 300.0, // Adjust the width as needed
@@ -124,7 +109,7 @@ class GameBoard extends StatelessWidget {
             : RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
       child: Text(
-        label,
+        "",
         style: const TextStyle(fontSize: 16),
       ),
     );
