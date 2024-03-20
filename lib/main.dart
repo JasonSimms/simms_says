@@ -7,7 +7,7 @@ void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => GameStateProvider(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -17,6 +17,8 @@ void foo() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameStateProvider>(context).gameState;
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
             title: const Text('Coder_Simms_Says'),
           ),
           body: Column(children: <Widget>[
-            Text('<Debug text>'),
+            const Text('<Debug text>'),
             Container(
                 width: 400,
                 height: 400,

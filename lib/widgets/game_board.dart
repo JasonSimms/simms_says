@@ -103,14 +103,14 @@ class GameBoard extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: isAnimated ? Colors.orange : color,
-        fixedSize: isCentered ? Size(100, 100) : Size(200, 200),
+        fixedSize: isCentered ? const Size(100, 100) : const Size(200, 200),
         shape: isCentered
-            ? CircleBorder()
-            : RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            ? const CircleBorder()
+            : const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
-      child: Text(
+      child: const Text(
         "",
-        style: const TextStyle(fontSize: 16),
+        style: TextStyle(fontSize: 16),
       ),
     );
   }

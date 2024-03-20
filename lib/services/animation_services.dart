@@ -10,7 +10,7 @@ class AnimationService {
     _animatedButtonIndex = 0; // Reset the index
 
     // Add a delay before starting the animation
-    Future.delayed(Duration(milliseconds: 750), () {
+    Future.delayed(const Duration(milliseconds: 750), () {
       _animateNextButton(buttonSequence, updateAnimatedButton, notifyListeners);
     });
   }
@@ -27,7 +27,7 @@ class AnimationService {
 
       // Schedule the next animation
       _animationTimer = Timer(
-          Duration(milliseconds: 750),
+          const Duration(milliseconds: 750),
           () => _animateNextButton(
               buttonSequence, updateAnimatedButton, notifyListeners));
       _animatedButtonIndex++;
