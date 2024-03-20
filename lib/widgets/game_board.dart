@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:simms_says/providers/game_state_provider.dart';
-import 'package:simms_says/widgets/animated_button.dart';
 import 'package:simms_says/widgets/game_button.dart';
 
 class GameBoard extends StatelessWidget {

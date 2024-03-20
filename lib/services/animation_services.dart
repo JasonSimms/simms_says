@@ -19,21 +19,24 @@ class AnimationService {
       Function updateAnimatedButton, Function notifyListeners) {
     if (_animatedButtonIndex < buttonSequence.length) {
       // Animate the button at _animatedButtonIndex
-      // This part is UI-specific and should be handled by the UI
-      // For example, you might set a variable in your UI to reflect the current animated button
-      // notifyListeners(); // Notify listeners to update the UI
       updateAnimatedButton(buttonSequence[_animatedButtonIndex]);
       notifyListeners();
 
       // Schedule the next animation
-      _animationTimer = Timer(
-          const Duration(milliseconds: 750),
-          () => _animateNextButton(
-              buttonSequence, updateAnimatedButton, notifyListeners));
+      _animationTimer = Timer(const Duration(milliseconds: 750), () {
+        // Set animatedButton to 0 for 200ms before the next animation
+        // This visually shows when a button is called twice.
+        updateAnimatedButton(0);
+        notifyListeners();
+
+        Timer(const Duration(milliseconds: 200), () {
+          _animateNextButton(
+              buttonSequence, updateAnimatedButton, notifyListeners);
+        });
+      });
       _animatedButtonIndex++;
     } else {
       // Animation sequence completed
-      // Reset or set a variable in your UI to indicate no animation is happening
       updateAnimatedButton(0);
       notifyListeners();
 
