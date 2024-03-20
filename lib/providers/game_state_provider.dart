@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:simms_says/models/game_state.dart';
 import 'package:logger/logger.dart';
 import 'package:simms_says/services/animation_services.dart';
-
-import 'dart:math';
+import 'package:simms_says/services/game_services.dart';
 
 class GameStateProvider with ChangeNotifier {
   final logger = Logger();
   final AnimationService _animationService = AnimationService();
+  final GameService _gameService = GameService();
   final GameState _gameState = GameState();
 
   int _currentUserIndex = 0;
@@ -15,19 +15,13 @@ class GameStateProvider with ChangeNotifier {
   // Getter to access the game state
   GameState get gameState => _gameState;
 
-  // Method to update the button sequence
-  void updateButtonSequence(List<int> newSequence) {
-    _gameState.buttonSequence = newSequence;
-    notifyListeners(); // Notify listeners about the change
-  }
-
+  // User presses buttons in order they were presented from buttonSequence
   void checkInput(int value) {
     bool isValid = value == gameState.buttonSequence[_currentUserIndex];
     // Input is correct and reached the end of sequence
     if (isValid && _currentUserIndex == gameState.buttonSequence.length - 1) {
-      logger.d('Good next round');
-      _pushRandomNumber();
-      _currentUserIndex = 0;
+      _currentUserIndex = 0; // Game expects the user to start over.
+      _nextLevel();
       startAnimation();
     }
     // Input is valid but there are more to go in the sequence.
@@ -41,27 +35,24 @@ class GameStateProvider with ChangeNotifier {
   }
 
   void startNewGame() {
-    logger.d('new game initiated!');
-    _gameState.buttonSequence = [];
-    _pushRandomNumber();
+    _reset();
+    _nextLevel();
     startAnimation();
   }
 
   void _reset() {
-    logger.d('reset');
     gameState.buttonSequence = [];
     gameState.animatedButton = 0;
     _currentUserIndex = 0;
   }
 
-  void _pushRandomNumber() {
-    var random = Random();
-    int randomNumber = random.nextInt(5) + 1;
-    gameState.buttonSequence.add(randomNumber);
+  void _nextLevel() {
+    _gameService.nextLevel(_gameState.buttonSequence, notifyListeners);
   }
 
-  void startAnimation() {
-    _animationService.startAnimation(_gameState.buttonSequence,
+  //Animate the button sequence
+  Future<void> startAnimation() async {
+    await _animationService.startAnimation(_gameState.buttonSequence,
         (int animatedButton) {
       _gameState.animatedButton = animatedButton;
     }, notifyListeners);

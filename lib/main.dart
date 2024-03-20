@@ -12,23 +12,21 @@ void main() {
   );
 }
 
-void foo() {
-  print('bar');
-}
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameStateProvider>(context).gameState;
+    final buttonSequence = gameState.buttonSequence.join(',');
+
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
             title: const Text('Coder_Simms_Says'),
           ),
           body: Column(children: <Widget>[
-            const Text('<Debug text>'),
+            Text('<Debug text> $buttonSequence'),
             Container(
                 width: 400,
                 height: 400,

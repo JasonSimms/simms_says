@@ -4,13 +4,13 @@ class AnimationService {
   Timer? _animationTimer;
   int _animatedButtonIndex = 0;
 
-  void startAnimation(List<int> buttonSequence, Function updateAnimatedButton,
-      Function notifyListeners) {
+  Future<void> startAnimation(List<int> buttonSequence,
+      Function updateAnimatedButton, Function notifyListeners) {
     _animationTimer?.cancel(); // Cancel any ongoing animation
     _animatedButtonIndex = 0; // Reset the index
 
     // Add a delay before starting the animation
-    Future.delayed(const Duration(milliseconds: 750), () {
+    return Future.delayed(const Duration(milliseconds: 750), () {
       _animateNextButton(buttonSequence, updateAnimatedButton, notifyListeners);
     });
   }
