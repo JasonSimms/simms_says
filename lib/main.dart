@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:simms_says/services/audio_services.dart';
 import 'package:simms_says/widgets/game_board.dart';
 import 'package:simms_says/providers/game_state_provider.dart';
 
@@ -35,6 +36,13 @@ class MyApp extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // Trigger the animation in GameBoard
+                    makeNoise(3);
+                  },
+                  child: const Text('Debug'),
+                ),
                 ElevatedButton(
                   onPressed: () {
                     // Trigger the animation in GameBoard

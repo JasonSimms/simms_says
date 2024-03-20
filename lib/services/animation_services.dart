@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:simms_says/services/audio_services.dart';
 
 class AnimationService {
   Timer? _animationTimer;
@@ -19,7 +20,9 @@ class AnimationService {
       Function updateAnimatedButton, Function notifyListeners) {
     if (_animatedButtonIndex < buttonSequence.length) {
       // Animate the button at _animatedButtonIndex
-      updateAnimatedButton(buttonSequence[_animatedButtonIndex]);
+      updateAnimatedButton(
+          buttonSequence[_animatedButtonIndex]); //animateButton
+      makeNoise(buttonSequence[_animatedButtonIndex]); //play tone
       notifyListeners();
 
       // Schedule the next animation
