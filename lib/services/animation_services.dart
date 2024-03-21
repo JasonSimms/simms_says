@@ -1,23 +1,29 @@
 import 'dart:async';
-import 'package:simms_says/services/audio_services.dart';
 
 class AnimationService {
   Timer? _animationTimer;
   int _animatedButtonIndex = 0;
 
-  Future<void> startAnimation(List<int> buttonSequence,
-      Function updateAnimatedButton, Function notifyListeners) {
+  Future<void> startAnimation(
+      List<int> buttonSequence,
+      Function updateAnimatedButton,
+      Function notifyListeners,
+      Function makeNoise) {
     _animationTimer?.cancel(); // Cancel any ongoing animation
     _animatedButtonIndex = 0; // Reset the index
 
     // Add a delay before starting the animation
     return Future.delayed(const Duration(milliseconds: 750), () {
-      _animateNextButton(buttonSequence, updateAnimatedButton, notifyListeners);
+      _animateNextButton(
+          buttonSequence, updateAnimatedButton, notifyListeners, makeNoise);
     });
   }
 
-  void _animateNextButton(List<int> buttonSequence,
-      Function updateAnimatedButton, Function notifyListeners) {
+  void _animateNextButton(
+      List<int> buttonSequence,
+      Function updateAnimatedButton,
+      Function notifyListeners,
+      Function makeNoise) {
     if (_animatedButtonIndex < buttonSequence.length) {
       // Animate the button at _animatedButtonIndex
       updateAnimatedButton(
@@ -34,7 +40,7 @@ class AnimationService {
 
         Timer(const Duration(milliseconds: 200), () {
           _animateNextButton(
-              buttonSequence, updateAnimatedButton, notifyListeners);
+              buttonSequence, updateAnimatedButton, notifyListeners, makeNoise);
         });
       });
       _animatedButtonIndex++;

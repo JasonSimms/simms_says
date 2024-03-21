@@ -19,6 +19,9 @@ class GameStateProvider with ChangeNotifier {
   // User presses buttons in order they were presented from buttonSequence
   void checkInput(int value) {
     makeNoise(value);
+    if (gameState.buttonSequence.isEmpty) {
+      return; //Game is not on do nothing
+    }
     bool isValid = value == gameState.buttonSequence[_currentUserIndex];
     // Input is correct and reached the end of sequence
     if (isValid && _currentUserIndex == gameState.buttonSequence.length - 1) {
@@ -31,6 +34,7 @@ class GameStateProvider with ChangeNotifier {
       _currentUserIndex++;
     } else {
       //Lose scenario
+      makeNoise(99);
       logger.d('Lose scenario. Score: ${_currentUserIndex + 1}');
       _reset();
     }
@@ -57,6 +61,6 @@ class GameStateProvider with ChangeNotifier {
     await _animationService.startAnimation(_gameState.buttonSequence,
         (int animatedButton) {
       _gameState.animatedButton = animatedButton;
-    }, notifyListeners);
+    }, notifyListeners, makeNoise);
   }
 }
