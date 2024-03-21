@@ -11,30 +11,35 @@ import 'package:logger/logger.dart';
     - assets/audio/cartoon_fall_fast_whistling.mp3
 */
 
-void makeNoise(int index) async {
-  String sourceFile;
+final audioAssets = {
+  1: '/audio/bell_ring_001_73093.mp3', //BUTTONS
+  2: '/audio/bell_small_001.mp3',
+  3: '/audio/bell_small_002.mp3',
+  4: '/audio/bell_large_ring_designed.mp3',
+  5: '/audio/bell_med_large_ring_designed.mp3',
+  99: '/audio/cartoon_fall_fast_whistling.mp3', //GAMEOVER
+};
 
-  switch (index) {
-    case 1:
-      sourceFile = '/audio/bell_small_001.mp3';
-    case 2:
-      sourceFile = '/audio/bell_ring_001_73093.mp3';
-    case 3:
-      sourceFile = '/audio/bell_small_002.mp3';
-    case 4:
-      sourceFile = '/audio/bell_large_ring_designed.mp3';
-    case 5:
-      sourceFile = '/audio/bell_large_ring_designed.mp3';
-    case 99: //Game Over
-      sourceFile = '/audio/cartoon_fall_fast_whistling.mp3';
-    default:
-      sourceFile = '/audio/bell_large_ring_designed.mp3';
-  }
+void makeNoise(int index) async {
   try {
     final player = AudioPlayer();
+    final sourceFile = audioAssets[index]!;
     await player.play(AssetSource(sourceFile));
   } catch (e) {
     final logger = Logger();
     logger.e('Error playing audio index: $index', e);
   }
+}
+
+Future<void> loadAllAudioSources() async {
+  for (var audioFile in audioAssets.values) {
+    await _loadSource(audioFile);
+  }
+}
+
+Future<void> _loadSource(String audioFilePath) async {
+  final player = AudioPlayer();
+  await player.setSource(AssetSource(audioFilePath));
+  // Perform any additional operations with the player here, if needed.
+  await player.release();
 }

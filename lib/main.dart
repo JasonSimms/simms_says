@@ -4,7 +4,8 @@ import 'package:simms_says/services/audio_services.dart';
 import 'package:simms_says/widgets/game_board.dart';
 import 'package:simms_says/providers/game_state_provider.dart';
 
-void main() {
+void main() async {
+  await loadAllAudioSources();
   runApp(
     ChangeNotifierProvider(
       create: (context) => GameStateProvider(),
@@ -24,10 +25,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            title: const Text('Coder_Simms_Says'),
+            title: const Text('Coder Simms Says'),
           ),
           body: Column(children: <Widget>[
-            Text('<Debug text> $buttonSequence'),
+            Text('<Debug text> Sequence: $buttonSequence'),
             Container(
                 width: 400,
                 height: 400,
@@ -36,13 +37,13 @@ class MyApp extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Trigger the animation in GameBoard
-                    makeNoise(3);
-                  },
-                  child: const Text('Debug'),
-                ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     // Trigger the animation in GameBoard
+                //     makeNoise(3);
+                //   },
+                //   child: const Text('Debug'),
+                // ),
                 ElevatedButton(
                   onPressed: () {
                     // Trigger the animation in GameBoard

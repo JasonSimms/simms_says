@@ -84,8 +84,8 @@ class GameBoard extends StatelessWidget {
                   callback: checkInput,
                   isCentered: true),
             ),
-            Positioned(
-                bottom: 50, right: 50, child: Text(animatedButton.toString()))
+            // Positioned(
+            //     bottom: 50, right: 50, child: Text(animatedButton.toString()))
           ],
         ),
       ),
