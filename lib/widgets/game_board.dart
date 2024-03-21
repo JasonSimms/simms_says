@@ -13,7 +13,14 @@ class GameBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     // State from provider
     final gameState = Provider.of<GameStateProvider>(context).gameState;
-    final animatedButton = gameState.animatedButton;
+    final animatedButton =
+        gameState.animatedButton; //Animates a button by index
+
+    //Preload audio & assets
+    Provider.of<GameStateProvider>(context).loadAllAudio();
+    if (gameState.isLoading) return const Text('loading....');
+
+    //Handle User Input for game.
     final checkInput =
         Provider.of<GameStateProvider>(context, listen: false).checkInput;
 

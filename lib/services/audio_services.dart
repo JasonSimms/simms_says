@@ -12,17 +12,18 @@ import 'package:logger/logger.dart';
 */
 
 final audioAssets = {
-  1: '/audio/bell_ring_001_73093.mp3', //BUTTONS
-  2: '/audio/bell_small_001.mp3',
-  3: '/audio/bell_small_002.mp3',
-  4: '/audio/bell_large_ring_designed.mp3',
-  5: '/audio/bell_med_large_ring_designed.mp3',
-  99: '/audio/cartoon_fall_fast_whistling.mp3', //GAMEOVER
+  1: 'audio/bell_ring_001_73093.mp3', //BUTTONS
+  2: 'audio/bell_small_001.mp3',
+  3: 'audio/bell_small_002.mp3',
+  4: 'audio/bell_large_ring_designed.mp3',
+  5: 'audio/bell_med_large_ring_designed.mp3',
+  99: 'audio/cartoon_fall_fast_whistling.mp3', //GAMEOVER
 };
 
+final player = AudioPlayer();
 void makeNoise(int index) async {
   try {
-    final player = AudioPlayer();
+    await player.stop();
     final sourceFile = audioAssets[index]!;
     await player.play(AssetSource(sourceFile));
   } catch (e) {
@@ -38,7 +39,6 @@ Future<void> loadAllAudioSources() async {
 }
 
 Future<void> _loadSource(String audioFilePath) async {
-  final player = AudioPlayer();
   await player.setSource(AssetSource(audioFilePath));
   // Perform any additional operations with the player here, if needed.
   await player.release();

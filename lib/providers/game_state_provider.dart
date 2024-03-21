@@ -63,4 +63,14 @@ class GameStateProvider with ChangeNotifier {
       _gameState.animatedButton = animatedButton;
     }, notifyListeners, makeNoise);
   }
+
+  void setLoading(bool val) {
+    _gameState.isLoading = val;
+    notifyListeners();
+  }
+
+  void loadAllAudio() async {
+    await loadAllAudioSources();
+    setLoading(false);
+  }
 }
