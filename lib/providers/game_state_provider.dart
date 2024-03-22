@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:simms_says/services/animation_services.dart';
 import 'package:simms_says/services/game_services.dart';
 import 'package:simms_says/services/audio_services.dart';
+import 'package:simms_says/services/score_services.dart';
 
 class GameStateProvider with ChangeNotifier {
   final logger = Logger();
@@ -17,7 +18,7 @@ class GameStateProvider with ChangeNotifier {
   GameState get gameState => _gameState;
 
   // User presses buttons in order they were presented from buttonSequence
-  void checkInput(int value) {
+  void checkInput(int value) async {
     makeNoise(value);
 
     if (gameState.buttonSequence.isEmpty || gameState.isBusy) {
@@ -37,8 +38,10 @@ class GameStateProvider with ChangeNotifier {
       _currentUserIndex++;
     } else {
       //Lose scenario
+      logger.d('Lose scenario...');
       makeNoise(99);
-      logger.d('Lose scenario. Score: ${_currentUserIndex + 1}');
+      _gameState.highScore =
+          await registerScore(gameState.buttonSequence.length - 1);
       _reset();
     }
   }
@@ -72,8 +75,10 @@ class GameStateProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void loadAllAudio() async {
+  void loadAssets() async {
     await loadAllAudioSources();
+    _gameState.highScore =
+        (await readHighScore())!; //Set highscore from local storage
     setLoading(false);
   }
 

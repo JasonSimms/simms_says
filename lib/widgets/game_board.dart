@@ -18,7 +18,7 @@ class GameBoard extends StatelessWidget {
 
     //Preload audio & assets
     if (gameState.isLoading == true) {
-      Provider.of<GameStateProvider>(context).loadAllAudio();
+      Provider.of<GameStateProvider>(context).loadAssets();
       return const Text('loading....');
     }
 

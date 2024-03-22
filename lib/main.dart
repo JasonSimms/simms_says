@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameStateProvider>(context).gameState;
+    final highScore = gameState.highScore;
 
     return MaterialApp(
       home: Scaffold(
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
             title: const Text('Coder Simms Says'),
           ),
           body: Column(children: <Widget>[
-            // Text('<Debug text> Sequence: $buttonSequence'),
+            Text('Top Score: $highScore'),
             Container(
                 width: 400,
                 height: 400,

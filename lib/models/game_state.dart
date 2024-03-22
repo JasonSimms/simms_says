@@ -7,6 +7,7 @@ class GameState {
   bool isAnimatingSequence = false;
   int animatedButton = 0;
   List<int> userInputSequence = [];
+  int highScore = 0;
 
   get handleUserInput => null;
 }
