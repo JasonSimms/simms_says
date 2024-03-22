@@ -38,7 +38,6 @@ class GameStateProvider with ChangeNotifier {
       _currentUserIndex++;
     } else {
       //Lose scenario
-      logger.d('Lose scenario...');
       makeNoise(99);
       _gameState.highScore =
           await registerScore(gameState.buttonSequence.length - 1);
@@ -49,13 +48,17 @@ class GameStateProvider with ChangeNotifier {
   void startNewGame() {
     _reset();
     _nextLevel();
+    gameState.isGameOn = true;
+    notifyListeners();
     startAnimation();
   }
 
   void _reset() {
     gameState.buttonSequence = [];
     gameState.animatedButton = 0;
+    gameState.isGameOn = false;
     _currentUserIndex = 0;
+    notifyListeners();
   }
 
   void _nextLevel() {
@@ -76,9 +79,15 @@ class GameStateProvider with ChangeNotifier {
   }
 
   void loadAssets() async {
-    await loadAllAudioSources();
-    _gameState.highScore =
-        (await readHighScore())!; //Set highscore from local storage
+    logger.d('load them assets..');
+    // await loadAllAudioSources();
+    try {
+      _gameState.highScore =
+          (await readHighScore())!; //Set highscore from local storage
+    } catch (e) {
+      logger.e('Error loading assets....', e);
+    }
+    logger.d('loaded assets?');
     setLoading(false);
   }
 

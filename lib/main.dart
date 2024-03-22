@@ -38,19 +38,24 @@ class MyApp extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    // Trigger the animation in GameBoard
-                    Provider.of<GameStateProvider>(context, listen: false)
-                        .startAnimation();
-                  },
-                  child: const Text('Help'),
+                  onPressed: gameState.buttonSequence.isEmpty ||
+                          gameState.isBusy
+                      ? null
+                      : () {
+                          // Trigger the animation in GameBoard
+                          Provider.of<GameStateProvider>(context, listen: false)
+                              .startAnimation();
+                        },
+                  child: const Text('Show Me Again'),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    // Trigger the animation in GameBoard
-                    Provider.of<GameStateProvider>(context, listen: false)
-                        .startNewGame();
-                  },
+                  onPressed: gameState.isGameOn
+                      ? null
+                      : () {
+                          // Trigger the animation in GameBoard
+                          Provider.of<GameStateProvider>(context, listen: false)
+                              .startNewGame();
+                        },
                   child: const Text('New'),
                 ),
               ],

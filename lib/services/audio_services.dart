@@ -23,7 +23,7 @@ final audioAssets = {
 final player = AudioPlayer();
 void makeNoise(int index) async {
   try {
-    // await player.stop();
+    await player.stop();
     final sourceFile = audioAssets[index]!;
     await player.play(AssetSource(sourceFile));
   } catch (e) {
@@ -34,12 +34,23 @@ void makeNoise(int index) async {
 
 //Ensures audio files are cached to audio player before game starts.
 Future<void> loadAllAudioSources() async {
-  for (var audioFile in audioAssets.values) {
-    await _loadSource(audioFile);
+  // return Future.value(null);
+  try {
+    for (var audioFile in audioAssets.values) {
+      await _loadSource(audioFile);
+    }
+  } catch (e) {
+    final logger = Logger();
+    logger.e('Error loadAllAudioSources', e);
   }
 }
 
 Future<void> _loadSource(String audioFilePath) async {
-  await player.setSource(AssetSource(audioFilePath));
-  await player.release();
+  try {
+    await player.setSource(AssetSource(audioFilePath));
+    await player.release();
+  } catch (e) {
+    final logger = Logger();
+    logger.e('Error _loadSource: $audioFilePath', e);
+  }
 }

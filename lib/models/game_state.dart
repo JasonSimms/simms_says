@@ -5,6 +5,8 @@ class GameState {
   bool isLoading = true;
   bool isBusy = false;
   bool isAnimatingSequence = false;
+  bool isAudioLoaded = false;
+  bool isGameOn = false;
   int animatedButton = 0;
   List<int> userInputSequence = [];
   int highScore = 0;

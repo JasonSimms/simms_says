@@ -37,6 +37,12 @@ Future<void> saveHighScore(int value) async {
 
 // To read data
 Future<int?> readHighScore() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getInt('highScore');
+  try {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? data = prefs.getInt('highScore');
+    return data ?? 0;
+  } catch (e) {
+    logger.e('error reading highScore', e);
+    return 0;
+  }
 }
