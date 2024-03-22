@@ -80,12 +80,12 @@ class GameStateProvider with ChangeNotifier {
 
   void loadAssets() async {
     logger.d('load them assets..');
-    // await loadAllAudioSources();
     try {
+      await loadAllAudioSources();
       _gameState.highScore =
           (await readHighScore())!; //Set highscore from local storage
     } catch (e) {
-      logger.e('Error loading assets....', e);
+      logger.e('Error loading assets....', error: e);
     }
     logger.d('loaded assets?');
     setLoading(false);

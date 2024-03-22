@@ -1,5 +1,8 @@
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:flame_audio/flame_audio.dart';
 import 'package:logger/logger.dart';
+import 'package:audioplayers/audioplayers.dart';
+
+final logger = Logger();
 
 /*
 * assets:
@@ -19,30 +22,26 @@ final audioAssets = {
   5: 'audio/bell_med_large_ring_designed.mp3',
   99: 'audio/cartoon_fall_fast_whistling.mp3', //GAMEOVER
 };
+String getAudioAsset(int key) => audioAssets[key] ?? 'audio/bell_small_001.mp3';
 
 final player = AudioPlayer();
 void makeNoise(int index) async {
   try {
-    await player.stop();
-    final sourceFile = audioAssets[index]!;
+    final String sourceFile = getAudioAsset(index);
     await player.play(AssetSource(sourceFile));
+    player.onPlayerComplete.listen((event) {
+      player.stop();
+    });
   } catch (e) {
-    final logger = Logger();
-    logger.e('Error playing audio index: $index', e);
+    logger.e('Problem makeNoise', error: e);
   }
 }
 
 //Ensures audio files are cached to audio player before game starts.
 Future<void> loadAllAudioSources() async {
-  // return Future.value(null);
-  try {
-    for (var audioFile in audioAssets.values) {
-      await _loadSource(audioFile);
-    }
-  } catch (e) {
-    final logger = Logger();
-    logger.e('Error loadAllAudioSources', e);
-  }
+  final assetList = audioAssets.values.toList();
+  assetList.map((el) => {_loadSource(el)});
+  return;
 }
 
 Future<void> _loadSource(String audioFilePath) async {
@@ -51,6 +50,6 @@ Future<void> _loadSource(String audioFilePath) async {
     await player.release();
   } catch (e) {
     final logger = Logger();
-    logger.e('Error _loadSource: $audioFilePath', e);
+    logger.e('Error _loadSource: $audioFilePath', error: e);
   }
 }

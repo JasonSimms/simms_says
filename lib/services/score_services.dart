@@ -24,7 +24,7 @@ Future<int> registerScore(int score) async {
     }
     return score;
   } catch (e, stackTrace) {
-    logger.e('An error occurred', e, stackTrace);
+    logger.e('An error occurred', error: e, stackTrace: stackTrace);
     return score;
   }
 }
@@ -42,7 +42,7 @@ Future<int?> readHighScore() async {
     int? data = prefs.getInt('highScore');
     return data ?? 0;
   } catch (e) {
-    logger.e('error reading highScore', e);
+    logger.e('error reading highScore', error: e);
     return 0;
   }
 }
