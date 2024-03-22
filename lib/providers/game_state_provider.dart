@@ -19,9 +19,12 @@ class GameStateProvider with ChangeNotifier {
   // User presses buttons in order they were presented from buttonSequence
   void checkInput(int value) {
     makeNoise(value);
-    if (gameState.buttonSequence.isEmpty) {
-      return; //Game is not on do nothing
+
+    if (gameState.buttonSequence.isEmpty || gameState.isBusy) {
+      return; //Game is not started or is animating
     }
+
+    //Validate correct or incorrect
     bool isValid = value == gameState.buttonSequence[_currentUserIndex];
     // Input is correct and reached the end of sequence
     if (isValid && _currentUserIndex == gameState.buttonSequence.length - 1) {
@@ -58,10 +61,10 @@ class GameStateProvider with ChangeNotifier {
 
   //Animate the button sequence
   Future<void> startAnimation() async {
-    await _animationService.startAnimation(_gameState.buttonSequence,
-        (int animatedButton) {
-      _gameState.animatedButton = animatedButton;
-    }, notifyListeners, makeNoise);
+    updateIsBusy(true);
+    await _animationService.startAnimation(
+        _gameState.buttonSequence, updateAnimatedButton, makeNoise);
+    updateIsBusy(false);
   }
 
   void setLoading(bool val) {
@@ -72,5 +75,15 @@ class GameStateProvider with ChangeNotifier {
   void loadAllAudio() async {
     await loadAllAudioSources();
     setLoading(false);
+  }
+
+  void updateIsBusy(bool val) {
+    _gameState.isBusy = val;
+    notifyListeners();
+  }
+
+  void updateAnimatedButton(int index) {
+    _gameState.animatedButton = index;
+    notifyListeners();
   }
 }

@@ -17,18 +17,19 @@ class GameBoard extends StatelessWidget {
         gameState.animatedButton; //Animates a button by index
 
     //Preload audio & assets
-    Provider.of<GameStateProvider>(context).loadAllAudio();
-    if (gameState.isLoading) return const Text('loading....');
+    if (gameState.isLoading == true) {
+      Provider.of<GameStateProvider>(context).loadAllAudio();
+      return const Text('loading....');
+    }
 
     //Handle User Input for game.
     final checkInput =
         Provider.of<GameStateProvider>(context, listen: false).checkInput;
 
     return Center(
-      child: Container(
+      child: SizedBox(
         width: 300.0, // Adjust the width as needed
         height: 300.0, // Adjust the height as needed
-        color: Colors.green, // Background color for the container
         child: Stack(
           children: [
             Column(
@@ -37,7 +38,6 @@ class GameBoard extends StatelessWidget {
                   child: Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      // AnimatedPushButton(),
                       Expanded(
                         child: gameButton(
                             label: 'Top Left',

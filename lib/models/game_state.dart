@@ -3,6 +3,7 @@ class GameState {
   List<int> buttonSequence = [];
   String stringFromProvider = 'BINGO';
   bool isLoading = true;
+  bool isBusy = false;
   bool isAnimatingSequence = false;
   int animatedButton = 0;
   List<int> userInputSequence = [];

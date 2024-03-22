@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final gameState = Provider.of<GameStateProvider>(context).gameState;
+    final gameState = Provider.of<GameStateProvider>(context).gameState;
 
     return MaterialApp(
       home: Scaffold(
@@ -29,7 +29,9 @@ class MyApp extends StatelessWidget {
             Container(
                 width: 400,
                 height: 400,
-                color: Colors.grey,
+                color: gameState.isBusy
+                    ? Colors.lightGreenAccent[100]
+                    : Colors.grey,
                 child: GameBoard()),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
